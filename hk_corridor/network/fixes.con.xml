@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections>
+    <connection from="1197109110" to="956602974" fromLane="0" toLane="0"/>
+    <connection from="1197689830" to="266150329#1" fromLane="1" toLane="0"/>
+    <connection from="1197689849#1" to="1197689854" fromLane="0" toLane="0"/>
+    <connection from="1197689858" to="1197689857" fromLane="0" toLane="0"/>
+    <connection from="1205891500" to="1205891499#0" fromLane="0" toLane="0"/>
+    <connection from="26560239" to="956602966" fromLane="0" toLane="0"/>
+    <connection from="297373180" to="814979896" fromLane="0" toLane="0"/>
+    <connection from="814979902" to="814979900" fromLane="0" toLane="0"/>
+    <connection from="814979905" to="44503414" fromLane="0" toLane="0"/>
+    <connection from="956602968" to="956602975" fromLane="0" toLane="0"/>
+</connections>

@@ -1,0 +1,26 @@
+day,test,params,tau,minGap,lcKeepRight,seed,geh_pass_pct,geh_pass_30min_pct,geh_pass_60min_pct,mean_geh,count_ratio,speed_mae_kmh,lane_share_mae_pp,teleports,teleport_detail,not_inserted,still_running,valid,interior_geh_pass_pct,interior_mean_geh
+20260922,calibration,default,1.0,2.5,1.0,0,72.2,83.3,66.7,4.22,0.99,6.0,18.7,20,20 (Jam: 20),0,48,False,70.8,4.42
+20260922,calibration,default,1.0,2.5,1.0,1,66.7,80.6,77.8,4.24,0.989,6.2,18.8,37,"37 (Collisions: 2, Jam: 34, Yield: 1)",0,44,False,60.4,4.57
+20260922,calibration,default,1.0,2.5,1.0,2,69.4,80.6,83.3,4.54,0.96,6.3,18.8,43,"43 (Collisions: 2, Jam: 38, Yield: 3)",58,70,False,64.6,4.65
+20260922,calibration,default,1.0,2.5,1.0,3,73.6,83.3,88.9,3.79,0.989,6.0,18.9,39,39 (Jam: 39),6,57,False,70.8,3.95
+20260922,calibration,default,1.0,2.5,1.0,4,72.2,83.3,77.8,3.94,0.971,5.9,19.2,33,"33 (Collisions: 3, Jam: 27, Yield: 3)",17,58,False,66.7,4.25
+20260922,calibration,calibrated,0.6,1.0,0.0,0,87.5,100.0,100.0,1.73,0.992,5.5,18.4,20,"20 (Collisions: 1, Jam: 19)",0,0,True,85.4,2.09
+20260922,calibration,calibrated,0.6,1.0,0.0,1,94.4,100.0,100.0,1.68,0.992,5.5,18.4,23,23 (Jam: 23),0,0,True,91.7,2.16
+20260922,calibration,calibrated,0.6,1.0,0.0,2,97.2,100.0,100.0,1.34,0.993,5.2,18.9,1,1 (Collisions: 1),0,0,True,95.8,1.77
+20260922,calibration,calibrated,0.6,1.0,0.0,3,95.8,100.0,100.0,1.45,0.993,5.3,18.9,9,"9 (Collisions: 1, Jam: 8)",0,0,True,93.8,1.9
+20260922,calibration,calibrated,0.6,1.0,0.0,4,95.8,100.0,100.0,1.26,0.993,5.2,19.0,2,"2 (Collisions: 1, Jam: 1)",0,0,True,93.8,1.53
+20260923,transfer,default,1.0,2.5,1.0,0,68.1,66.7,77.8,4.79,0.921,6.2,21.0,77,"77 (Jam: 71, Yield: 6)",71,250,False,62.5,5.08
+20260923,transfer,default,1.0,2.5,1.0,1,68.1,75.0,72.2,5.7,0.904,6.1,20.7,78,"78 (Collisions: 1, Jam: 72, Yield: 5)",239,314,False,62.5,5.86
+20260923,transfer,default,1.0,2.5,1.0,2,75.0,72.2,72.2,5.35,0.917,6.0,21.2,84,"84 (Jam: 78, Yield: 6)",37,292,False,70.8,5.72
+20260923,transfer,default,1.0,2.5,1.0,3,66.7,63.9,72.2,5.13,0.914,6.1,20.9,68,"68 (Collisions: 1, Jam: 63, Yield: 4)",99,298,False,60.4,5.4
+20260923,transfer,default,1.0,2.5,1.0,4,72.2,72.2,77.8,4.24,0.934,5.8,21.1,76,"76 (Collisions: 1, Jam: 75)",28,139,False,66.7,4.6
+20260923,transfer,calibrated,0.6,1.0,0.0,0,79.2,86.1,83.3,3.21,0.969,5.5,20.1,57,"57 (Collisions: 2, Jam: 52, Yield: 3)",0,33,False,77.1,3.22
+20260923,transfer,calibrated,0.6,1.0,0.0,1,81.9,86.1,100.0,2.88,0.981,5.8,20.0,51,"51 (Jam: 50, Yield: 1)",0,1,False,79.2,2.99
+20260923,transfer,calibrated,0.6,1.0,0.0,2,81.9,88.9,83.3,2.93,0.965,5.4,20.1,60,"60 (Jam: 59, Yield: 1)",0,23,False,81.2,2.97
+20260923,transfer,calibrated,0.6,1.0,0.0,3,84.7,88.9,83.3,3.15,0.96,5.7,20.1,79,"79 (Collisions: 1, Jam: 73, Yield: 5)",0,39,False,83.3,3.32
+20260923,transfer,calibrated,0.6,1.0,0.0,4,83.3,86.1,100.0,3.64,0.989,5.8,20.1,38,"38 (Jam: 33, Yield: 5)",0,1,False,81.2,3.68
+20260923,holdout,calibrated,0.6,1.0,0.0,0,62.5,91.7,94.4,4.03,0.987,5.6,19.6,27,27 (Jam: 27),0,0,True,52.1,4.82
+20260923,holdout,calibrated,0.6,1.0,0.0,1,65.3,83.3,94.4,3.99,0.987,5.6,19.4,33,"33 (Jam: 32, Yield: 1)",0,0,True,54.2,4.78
+20260923,holdout,calibrated,0.6,1.0,0.0,2,62.5,75.0,94.4,4.23,0.987,5.7,19.6,23,"23 (Jam: 21, Yield: 2)",0,0,True,50.0,5.02
+20260923,holdout,calibrated,0.6,1.0,0.0,3,66.7,80.6,94.4,3.9,0.987,5.6,19.8,22,"22 (Jam: 21, Wrong Lane: 1)",0,0,True,58.3,4.67
+20260923,holdout,calibrated,0.6,1.0,0.0,4,62.5,80.6,94.4,4.07,0.987,5.6,19.6,30,"30 (Jam: 29, Wrong Lane: 1)",0,0,True,52.1,4.86

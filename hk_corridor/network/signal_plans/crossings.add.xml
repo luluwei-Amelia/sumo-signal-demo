@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<additional>
+  <tlLogic id="11935908887" type="static" programID="crossing" offset="0">
+    <phase duration="79" state="G" />
+    <phase duration="6" state="y" />
+    <phase duration="5" state="r" />
+  </tlLogic>
+  <tlLogic id="12109952915" type="static" programID="crossing" offset="0">
+    <phase duration="79" state="GG" />
+    <phase duration="6" state="yy" />
+    <phase duration="5" state="rr" />
+  </tlLogic>
+  <tlLogic id="6705037754" type="static" programID="crossing" offset="0">
+    <phase duration="79" state="G" />
+    <phase duration="6" state="y" />
+    <phase duration="5" state="r" />
+  </tlLogic>
+  <tlLogic id="6705182087" type="static" programID="crossing" offset="0">
+    <phase duration="79" state="GG" />
+    <phase duration="6" state="yy" />
+    <phase duration="5" state="rr" />
+  </tlLogic>
+  <tlLogic id="6705233858" type="static" programID="crossing" offset="0">
+    <phase duration="79" state="G" />
+    <phase duration="6" state="y" />
+    <phase duration="5" state="r" />
+  </tlLogic>
+</additional>

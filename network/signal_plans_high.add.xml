@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional>
+    <tlLogic id="C" type="static" programID="equal" offset="0">
+        <phase duration="30" state="GGGgrrrrGGGgrrrr"/>
+        <phase duration="3" state="yyyyrrrryyyyrrrr"/>
+        <phase duration="30" state="rrrrGGGgrrrrGGGg"/>
+        <phase duration="3" state="rrrryyyyrrrryyyy"/>
+    </tlLogic>
+    <tlLogic id="C" type="static" programID="webster" offset="0">
+        <phase duration="14" state="GGGgrrrrGGGgrrrr"/>
+        <phase duration="3" state="yyyyrrrryyyyrrrr"/>
+        <phase duration="10" state="rrrrGGGgrrrrGGGg"/>
+        <phase duration="3" state="rrrryyyyrrrryyyy"/>
+    </tlLogic>
+    <tlLogic id="C" type="actuated" programID="actuated" offset="0">
+        <phase duration="30" minDur="5" maxDur="50" state="GGGgrrrrGGGgrrrr"/>
+        <phase duration="3" state="yyyyrrrryyyyrrrr"/>
+        <phase duration="30" minDur="5" maxDur="50" state="rrrrGGGgrrrrGGGg"/>
+        <phase duration="3" state="rrrryyyyrrrryyyy"/>
+    </tlLogic>
+</additional>

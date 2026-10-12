@@ -1,0 +1,9 @@
+# Tested with Python 3.11.7 and Eclipse SUMO 1.18.0 (SUMO_HOME set).
+# sumolib and traci ship with SUMO in $SUMO_HOME/tools; the pip packages below match that version.
+sumolib==1.18.0
+traci==1.18.0
+numpy==1.26.4
+pandas==2.1.4
+scipy==1.11.4
+matplotlib==3.8.0
+pyproj==3.7.2

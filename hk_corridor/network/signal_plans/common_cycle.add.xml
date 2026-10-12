@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<additional>
+  <tlLogic id="cluster_1054617269_12109925090_12109925091_12109952914_#4more" type="static" programID="common_cycle" offset="0">
+    <phase duration="24" state="GGgGGggrrr" />
+    <phase duration="6" state="yyyyyyyrrr" />
+    <phase duration="7" state="GrrrrrrGGg" />
+    <phase duration="6" state="yrrrrrryyy" />
+  </tlLogic>
+  <tlLogic id="cluster_11111906653_11111906654_11111906655_11111906666_#4more" type="static" programID="common_cycle" offset="0">
+    <phase duration="10" state="rrrrrGG" />
+    <phase duration="6" state="rrrrryy" />
+    <phase duration="8" state="rrgGGrr" />
+    <phase duration="6" state="rryyyrr" />
+    <phase duration="7" state="GGrrrrr" />
+    <phase duration="6" state="yyrrrrr" />
+  </tlLogic>
+  <tlLogic id="cluster_12109968460_12109971949_13704890854_13704890862_#1more" type="static" programID="common_cycle" offset="0">
+    <phase duration="24" state="GGrr" />
+    <phase duration="6" state="yyrr" />
+    <phase duration="7" state="rrGG" />
+    <phase duration="6" state="rryy" />
+  </tlLogic>
+  <tlLogic id="cluster_5131670722_6312274905_7602198772_7612595912" type="static" programID="common_cycle" offset="0">
+    <phase duration="7" state="GGrrr" />
+    <phase duration="5" state="yyrrr" />
+    <phase duration="26" state="rrGGG" />
+    <phase duration="5" state="rryyy" />
+  </tlLogic>
+</additional>

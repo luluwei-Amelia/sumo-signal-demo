@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" sigma="0.5" length="5" maxSpeed="13.89"/>
+    <flow id="N_through" type="car" begin="0" end="3600" from="N2C" to="C2S" probability="0.1361" departLane="best" departSpeed="max"/>
+    <flow id="N_left" type="car" begin="0" end="3600" from="N2C" to="C2E" probability="0.0292" departLane="best" departSpeed="max"/>
+    <flow id="N_right" type="car" begin="0" end="3600" from="N2C" to="C2W" probability="0.0292" departLane="best" departSpeed="max"/>
+    <flow id="S_through" type="car" begin="0" end="3600" from="S2C" to="C2N" probability="0.1361" departLane="best" departSpeed="max"/>
+    <flow id="S_left" type="car" begin="0" end="3600" from="S2C" to="C2W" probability="0.0292" departLane="best" departSpeed="max"/>
+    <flow id="S_right" type="car" begin="0" end="3600" from="S2C" to="C2E" probability="0.0292" departLane="best" departSpeed="max"/>
+    <flow id="E_through" type="car" begin="0" end="3600" from="E2C" to="C2W" probability="0.0681" departLane="best" departSpeed="max"/>
+    <flow id="E_left" type="car" begin="0" end="3600" from="E2C" to="C2S" probability="0.0146" departLane="best" departSpeed="max"/>
+    <flow id="E_right" type="car" begin="0" end="3600" from="E2C" to="C2N" probability="0.0146" departLane="best" departSpeed="max"/>
+    <flow id="W_through" type="car" begin="0" end="3600" from="W2C" to="C2E" probability="0.0681" departLane="best" departSpeed="max"/>
+    <flow id="W_left" type="car" begin="0" end="3600" from="W2C" to="C2N" probability="0.0146" departLane="best" departSpeed="max"/>
+    <flow id="W_right" type="car" begin="0" end="3600" from="W2C" to="C2S" probability="0.0146" departLane="best" departSpeed="max"/>
+</routes>

@@ -1,0 +1,7 @@
+{
+  "headways": 390,
+  "lanes": 5,
+  "mean_headway_s": 1.57,
+  "median_headway_s": 1.5,
+  "sat_flow_veh_h_lane": 2298
+}
