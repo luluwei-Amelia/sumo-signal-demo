@@ -1,0 +1,33 @@
+:root {
+  --ink: #1d1d1b;
+  --muted: #6b6a65;
+  --line: #e4e2dc;
+  --bg: #fbfaf7;
+  --card: #ffffff;
+  --east: #2a78d6;
+  --west: #e0702b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0 16px 40px;
+  font: 15px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+header, section, footer { max-width: 1000px; margin: 0 auto; }
+header { padding: 28px 0 8px; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 18px; margin: 32px 0 8px; }
+a { color: var(--east); }
+.note { color: var(--muted); font-size: 13px; margin: 6px 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.card .value { font-size: 26px; font-weight: 600; }
+.card .label { color: var(--muted); font-size: 13px; }
+#map { height: 380px; border: 1px solid var(--line); border-radius: 8px; }
+.chart { background: var(--card); border: 1px solid var(--line); border-radius: 8px; min-height: 340px; }
+.controls { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 8px; }
+.controls label { font-size: 14px; color: var(--muted); }
+select { font: inherit; margin-left: 6px; padding: 2px 4px; }
+footer { color: var(--muted); font-size: 12px; margin-top: 32px; }
