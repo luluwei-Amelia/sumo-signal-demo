@@ -62,3 +62,5 @@ Census 2024. Full attribution in [hk_corridor/README.md](hk_corridor/README.md#d
 ## License
 
 MIT for the code. The data keep their own licences.
+
+Code written with the help of an AI coding assistant; the modelling choices and conclusions are my own.

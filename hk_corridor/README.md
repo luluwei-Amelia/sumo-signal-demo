@@ -205,14 +205,14 @@ detectors, it cannot carry the real vehicle mix, and the plan ranking changes wi
 
 ## Earlier versions
 
-- 9 Oct: reported that a coordinated plan cut delay by 20-47%. Withdrawn: the redesigned plans had
-  shorter yellows than the baseline, the pedestrian crossings had different timings in different
-  plans, and time spent waiting to enter was not counted.
-- 11 Oct: fixed those three things, added the common-cycle run and 5-seed calibration. Actuated came
-  out best.
-- 12 Oct: lane fix at TDSAPR10001, no trips starting or ending on detector edges, lane-change
-  parameter, wider grid, census mix, measured saturation flow, holdout test. The 11 Oct ranking did
-  not survive.
+- First version: reported that a coordinated plan cut delay by 20-47%. Withdrawn: the redesigned
+  plans had shorter yellows than the baseline, the pedestrian crossings had different timings in
+  different plans, and time spent waiting to enter was not counted.
+- Second version: fixed those three things, added the common-cycle run and 5-seed calibration.
+  Actuated came out best.
+- Third version (v0.1): lane fix at TDSAPR10001, no trips starting or ending on detector edges,
+  lane-change parameter, wider grid, census mix, measured saturation flow, holdout test. The
+  ranking of the second version did not survive.
 - v0.2: SQLite store, validity rule on every run, saturation measured without lane-changers over
   5 seeds, median-seed figures, sign test and sampling-noise ceiling for the holdout, 23 Sep signal
   runs on holdout demand, tests and the results page.
@@ -274,7 +274,7 @@ Tests: `python -m pytest tests/hk_corridor` from the repository root.
 ## Data
 
 - Road network: (c) OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright).
-  Raw extract in `network/aberdeen_bbox.osm.xml`, downloaded 9 Oct 2026.
+  Raw extract in `network/aberdeen_bbox.osm.xml`.
 - Detector counts, speeds and locations: Transport Department, HKSAR Government, via DATA.GOV.HK
   (https://data.gov.hk), under the DATA.GOV.HK terms and conditions. Counts are from the historical
   archive of rawSpeedVol-all.xml; `data/detector_locations.csv` is TD's detector location dataset.
