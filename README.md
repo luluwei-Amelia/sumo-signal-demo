@@ -42,7 +42,7 @@ Tested with SUMO 1.18.0 and Python 3.11 on Windows; versions in `requirements.tx
 ```bash
 pip install -r requirements.txt
 cd hk_corridor
-QUICK=1 python calibrate.py     # one seed, small grid, a few minutes
+QUICK=1 python calibrate.py     # one seed, 4 parameter sets, about 6 min on 4 cores
 ```
 
 The full sequence and run times are in [hk_corridor/README.md](hk_corridor/README.md#how-to-run).

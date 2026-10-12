@@ -10,3 +10,4 @@ network/routes_*_holdout.rou.xml
 # Rebuilt from data/detectors_*.csv by db.py
 data/tiasim.sqlite
 results_quick/
+data/tiasim_quick.sqlite

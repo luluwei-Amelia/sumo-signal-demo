@@ -7,6 +7,7 @@ readings  one row per date, 30-second period, detector and lane (from data/detec
 
 Usage: python db.py          rebuild the database from the CSV files and list its tables
 """
+import os
 import sqlite3
 import subprocess
 from datetime import datetime
@@ -15,7 +16,8 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent
-DB_FILE = ROOT / "data" / "tiasim.sqlite"
+# Quick runs (QUICK=1) get their own file so they never replace the full experiment tables.
+DB_FILE = ROOT / "data" / ("tiasim_quick.sqlite" if os.environ.get("QUICK") == "1" else "tiasim.sqlite")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS readings (
