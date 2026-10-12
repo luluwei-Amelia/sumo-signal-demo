@@ -7,3 +7,6 @@ data/sample_rawSpeedVol.xml
 network/signal_plans/*_raw.add.xml
 network/aberdeen_bbox_patched.osm.xml
 network/routes_*_holdout.rou.xml
+# Rebuilt from data/detectors_*.csv by db.py
+data/tiasim.sqlite
+results_quick/
