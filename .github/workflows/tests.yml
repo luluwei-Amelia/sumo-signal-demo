@@ -1,0 +1,21 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+      # The two folders have modules with the same names, so they run in separate sessions.
+      - name: Corridor study
+        run: pytest tests/hk_corridor -q
+      - name: Single-intersection example
+        run: pytest tests/single_intersection -q

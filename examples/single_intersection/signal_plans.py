@@ -35,8 +35,13 @@ def green_phases(tls, phases):
     return served
 
 
+def webster_cycle(lost, total_y):
+    """Webster (1958) minimum-delay cycle C = (1.5 L + 5) / (1 - Y), capped at MAX_CYCLE."""
+    return MAX_CYCLE if total_y >= 1 else min(MAX_CYCLE, (1.5 * lost + 5) / (1 - total_y))
+
+
 def webster_greens(net, served, phases, multiplier, sat_flow):
-    """Webster (1958): minimum-delay cycle C = (1.5 L + 5) / (1 - Y), green split by y_i / Y.
+    """Webster cycle with green split by y_i / Y.
 
     y_i is the critical flow ratio of phase i: the busiest lane's flow divided by
     the saturation flow. Y is the sum over phases, L the total lost time per cycle.
@@ -50,7 +55,7 @@ def webster_greens(net, served, phases, multiplier, sat_flow):
     }
     total_y = sum(y.values())
     lost = LOST_TIME_PER_PHASE * len(served)
-    cycle = MAX_CYCLE if total_y >= 1 else min(MAX_CYCLE, (1.5 * lost + 5) / (1 - total_y))
+    cycle = webster_cycle(lost, total_y)
 
     greens = {}
     for i in served:

@@ -1,0 +1,2 @@
+# Generated SUMO/OSM XML: keep it out of GitHub's language statistics and collapsed in diffs
+*.xml linguist-generated=true

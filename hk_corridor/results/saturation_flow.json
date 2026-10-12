@@ -1,7 +1,14 @@
 {
-  "headways": 390,
-  "lanes": 5,
-  "mean_headway_s": 1.57,
+  "seeds": 5,
+  "headways": 1897,
+  "lanes": 6,
+  "junctions": 3,
+  "mean_headway_s": 1.6,
   "median_headway_s": 1.5,
-  "sat_flow_veh_h_lane": 2298
+  "sat_flow_veh_h_lane": 2246,
+  "sat_flow_range_over_seeds": [
+    2060,
+    2334
+  ],
+  "largest_lane_share_of_headways": 0.54
 }

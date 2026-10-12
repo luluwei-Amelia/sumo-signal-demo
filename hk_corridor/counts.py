@@ -6,12 +6,10 @@ to 18 of 30 periods. Each count is the observed vehicles per period scaled to 30
 bins with few periods carry a large sampling error; the number of periods is kept in the
 output for that reason.
 """
-from pathlib import Path
-
+import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT / "data"
+import db
 
 START = "06:45"   # simulation time 0; the first 15 minutes serve as warm-up
 END = "10:00"
@@ -24,24 +22,48 @@ def to_seconds(hhmm):
     return h * 3600 + m * 60
 
 
-def load_counts(day):
-    """One row per (bin, detector): observed periods, vehicles counted, scaled 15-min count."""
-    raw = pd.read_csv(DATA_DIR / f"detectors_{day}.csv")
-    raw = raw[raw["valid"] == "Y"]
+def periods_by_bin(day):
+    """Valid 30-second volumes per detector (all lanes), with the 15-min bin they fall in."""
+    raw = db.volume_by_period(day)
     t = raw["period_from"].map(to_seconds) - to_seconds(START)
     raw = raw[(t >= 0) & (t < to_seconds(END) - to_seconds(START))].copy()
     raw["bin_start"] = (t // (BIN_MIN * 60) * BIN_MIN * 60).astype(int)
+    return raw
 
-    grouped = raw.groupby(["bin_start", "detector"])
+
+def load_counts(day):
+    """One row per (bin, detector): observed periods, vehicles counted, scaled 15-min count."""
+    grouped = periods_by_bin(day).groupby(["bin_start", "detector"])
     counts = pd.DataFrame({
         "periods": grouped["period_from"].nunique(),
-        "observed_veh": grouped["volume"].sum(),     # summed over all lanes
+        "observed_veh": grouped["volume"].sum(),
     }).reset_index()
     counts["count_15min"] = (counts["observed_veh"] / counts["periods"] * PERIODS_PER_BIN).round().astype(int)
     counts["clock"] = counts["bin_start"].map(
         lambda s: f"{(to_seconds(START) + s) // 3600:02d}:{(to_seconds(START) + s) % 3600 // 60:02d}"
     )
     return counts
+
+
+def sampling_noise(day, n_boot=500, seed=0):
+    """How far a scaled 15-min count can move only because of which periods were retrieved.
+
+    For each detector and bin, the available 30-second periods are resampled with replacement
+    and rescaled to 30 periods; GEH (hourly rates) is computed between each resampled count
+    and the count from all available periods. Returns one row per bin with the share of draws
+    at GEH >= 5, i.e. how often a perfect model would still fail that bin on sampling alone.
+    This understates the error, since periods that were never retrieved can't be resampled.
+    """
+    rng = np.random.default_rng(seed)
+    rows = []
+    for (b, det), g in periods_by_bin(day).groupby(["bin_start", "detector"]):
+        v = g["volume"].to_numpy()
+        full = v.mean() * PERIODS_PER_BIN * 4
+        draws = rng.choice(v, size=(n_boot, len(v))).mean(axis=1) * PERIODS_PER_BIN * 4
+        gehs = np.sqrt(2 * (draws - full) ** 2 / np.maximum(draws + full, 1e-9))
+        rows.append({"bin_start": int(b), "detector": det, "periods": len(v),
+                     "share_geh_ge_5": float((gehs >= 5).mean())})
+    return pd.DataFrame(rows)
 
 
 CONSECUTIVE = [  # detectors in driving order along each direction

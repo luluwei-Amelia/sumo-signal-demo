@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aberdeen Praya Road SUMO results</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Aberdeen Praya Road: SUMO calibration and validation</h1>
+    <p>Results browser for <a href="https://github.com/luluwei-Amelia/sumo-signal-demo">sumo-signal-demo</a>.
+      SUMO model of a 1.6 km corridor in Aberdeen, Hong Kong, with demand from Transport Department detector
+      counts on 22 and 23 September 2026. Data: OpenStreetMap contributors (ODbL), Transport Department via DATA.GOV.HK.</p>
+  </header>
+
+  <section class="cards" id="cards"></section>
+
+  <section>
+    <h2>Study area</h2>
+    <p class="note">Detectors (blue eastbound, orange westbound) and signals (dark squares: junctions, light: pedestrian crossings).</p>
+    <div id="map"></div>
+  </section>
+
+  <section>
+    <h2>Observed and simulated counts</h2>
+    <div class="controls">
+      <label>Test
+        <select id="test">
+          <option value="calibration">Calibration, 22 Sep</option>
+          <option value="holdout">Holdout, 23 Sep (interior detectors predicted)</option>
+        </select>
+      </label>
+      <label>Detector <select id="detector"></select></label>
+    </div>
+    <div id="counts" class="chart"></div>
+    <p class="note">15-min counts as hourly rates; median seed of 5. Open circles: observed count built from fewer than 8 of 30 periods.</p>
+  </section>
+
+  <section>
+    <h2>Calibration grid</h2>
+    <div id="grid" class="chart"></div>
+    <p class="note">Mean share of 15-min comparisons with GEH &lt; 5 over 5 seeds (lcKeepRight = 0). Uncoloured cells: at least one run failed the validity rule, so the set cannot be selected. Box: selected set.</p>
+  </section>
+
+  <section>
+    <h2>Signal plans</h2>
+    <div id="signals" class="chart"></div>
+    <p class="note">Delay per vehicle including time waiting to enter, 07:00-10:00, mean of 5 seeds with 95% CI. Hatched bars: no run passed the validity rule (queues back up out of the network), so these delays are not comparable. Signal timings in operation are not public, so all plans start from SUMO-generated phases.</p>
+  </section>
+
+  <footer id="footer"></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

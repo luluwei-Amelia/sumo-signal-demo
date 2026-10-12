@@ -20,6 +20,7 @@ from pathlib import Path
 
 import pandas as pd
 
+import db
 from detectors import DETECTORS
 
 ROOT = Path(__file__).resolve().parent
@@ -35,7 +36,11 @@ def _get(url, retries=3):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=120) as r:
                 return r.read()
-        except Exception:
+        except urllib.error.HTTPError as err:
+            if err.code == 404 or attempt == retries - 1:
+                raise  # 404: the archive lists the version but doesn't serve it
+            time.sleep(5)
+        except (urllib.error.URLError, TimeoutError):
             if attempt == retries - 1:
                 raise
             time.sleep(5)
@@ -87,6 +92,7 @@ def download_day(day):
     df = df.drop_duplicates(["period_from", "detector", "lane"]).sort_values(["period_from", "detector", "lane"])
     out = DATA_DIR / f"detectors_{day}.csv"
     df.to_csv(out, index=False)
+    db.add_readings(df)
     print(f"{day}: {df['period_from'].nunique()} periods saved to {out.name}")
     return out
 

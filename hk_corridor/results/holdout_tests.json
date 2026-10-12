@@ -1,0 +1,6 @@
+{
+  "interior_bins": 48,
+  "bins_model_closer": 20,
+  "sign_test_p": 0.312,
+  "perfect_model_ceiling_15min_pct": 77.9
+}

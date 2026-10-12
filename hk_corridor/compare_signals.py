@@ -12,7 +12,8 @@ so the crossings keep netconvert's fixed timing in every plan and only the junct
 common_cycle is there to separate the cycle-length effect from the offsets. Yellows stay at
 the network's values and greens are at least MIN_GREEN, so plans differ only in greens and
 offsets. Webster is designed on 22 Sep demand with the measured saturation headway
-(saturation.py) and tested on both days.
+(saturation.py). Plans are run on the 22 Sep calibration demand and on the 23 Sep holdout
+demand (validate.py); every run is checked with the same validity rule as calibration.
 
 Delay = timeLoss + departDelay (waiting to enter), warm-up departures excluded. Differences
 to actuated are paired by seed. Degree of saturation X = Y C / (C - L) per junction, with Y
@@ -31,15 +32,16 @@ import pandas as pd
 from scipy import stats
 from sumolib import checkBinary
 
+import db
 from build_network import NET_FILE
-from calibrate import CALIBRATION_DAY, RESULTS_DIR, RUN_DIR, SIM_END, STEP_LENGTH, vtype_xml
+from calibrate import vtype_xml
+from sim import CALIBRATION_DAY, NET_DIR, RESULTS_DIR, RUN_DIR, SEEDS, VALIDATION_DAY, WORKERS, run_sumo, validity
+from validate import holdout_routes
 
-ROOT = Path(__file__).resolve().parent
-NET_DIR = ROOT / "network"
-SUMO_TOOLS = Path(checkBinary("sumo")).parents[1] / "tools"
 PLAN_DIR = NET_DIR / "signal_plans"
-DAYS = [CALIBRATION_DAY, "20260923"]
-SEEDS = range(5)
+# 22 Sep runs on the calibration demand. 23 Sep runs on the holdout demand: the transfer
+# demand (re-fitted to all 23 Sep counts) does not pass the validity rule with these parameters.
+DEMAND = {CALIBRATION_DAY: f"routes_{CALIBRATION_DAY}.rou.xml", VALIDATION_DAY: f"routes_{VALIDATION_DAY}_holdout.rou.xml"}
 WARMUP_S = 900          # 06:45-07:00
 MIN_GREEN = 7           # s
 YELLOW_S = 6            # netconvert's yellow at 3 of the 4 junctions (5 s at the fourth)
@@ -74,17 +76,23 @@ def write_programs(programs, path, program_id):
     return path
 
 
+def sumo_tools():
+    return Path(checkBinary("sumo")).parents[1] / "tools"
+
+
 def saturation_headway():
-    """Mean queue-discharge headway measured in the fitted model (saturation.py), else the tool default."""
+    """Mean queue-discharge headway measured in the fitted model (run saturation.py first)."""
     path = RESULTS_DIR / "saturation_flow.json"
-    return json.loads(path.read_text())["mean_headway_s"] if path.exists() else 2.0
+    if not path.exists():
+        raise FileNotFoundError(f"{path} missing: run saturation.py before compare_signals.py")
+    return json.loads(path.read_text())["mean_headway_s"]
 
 
 def webster_greens(skip, unified):
     """Green durations from tlsCycleAdaptation, keyed by tls id (one entry per phase, None for
     non-green), and the sum of critical flow ratios Y per junction."""
     raw = PLAN_DIR / "webster_raw.add.xml"
-    cmd = [sys.executable, str(SUMO_TOOLS / "tlsCycleAdaptation.py"), "-n", f"../{NET_FILE.name}",
+    cmd = [sys.executable, str(sumo_tools() / "tlsCycleAdaptation.py"), "-n", f"../{NET_FILE.name}",
            "-r", f"../routes_{CALIBRATION_DAY}.rou.xml", "--min-cycle", "40", "--max-cycle", "120",
            "-y", str(YELLOW_S),  # the network's yellow; the tool's default (4 s) would understate lost time
            "-l", str(LOST_TIME_S), "-H", str(saturation_headway()), "--write-critical-flows",
@@ -145,7 +153,7 @@ def design_plans():
     write_programs(common, PLAN_DIR / "common_cycle.add.xml", "common_cycle")
     write_programs(common, PLAN_DIR / "coordinated.add.xml", "coordinated")
     offsets_raw = PLAN_DIR / "offsets_raw.add.xml"
-    subprocess.run([sys.executable, str(SUMO_TOOLS / "tlsCoordinator.py"), "-n", f"../{NET_FILE.name}",
+    subprocess.run([sys.executable, str(sumo_tools() / "tlsCoordinator.py"), "-n", f"../{NET_FILE.name}",
                     "-r", f"../routes_{CALIBRATION_DAY}.rou.xml", "-a", "coordinated.add.xml",
                     "-o", offsets_raw.name], check=True, capture_output=True, text=True, cwd=PLAN_DIR)
     offsets = {tl.get("id"): tl.get("offset") for tl in ET.parse(offsets_raw).getroot().iter("tlLogic")
@@ -185,14 +193,8 @@ def design_plans():
 def run(plan, plan_files, day, seed):
     name = f"sig_{plan}_{day}_{seed}"
     trips = RUN_DIR / f"{name}.tripinfo.xml"
-    adds = [str(RUN_DIR / "calibrated_vtype.add.xml")] + [str(f) for f in plan_files]
-    log = subprocess.run(
-        [checkBinary("sumo"), "--net-file", str(NET_FILE), "--route-files", str(NET_DIR / f"routes_{day}.rou.xml"),
-         "--additional-files", ",".join(adds), "--end", str(SIM_END), "--seed", str(seed),
-         "--step-length", str(STEP_LENGTH), "--tripinfo-output", str(trips),
-         "--no-step-log", "true", "--no-warnings", "true", "--duration-log.statistics", "true"],
-        capture_output=True, text=True, check=True).stdout
-    teleports = next((l.split(":")[1].split()[0] for l in log.splitlines() if l.strip().startswith("Teleports")), "0")
+    adds = [RUN_DIR / "calibrated_vtype.add.xml", *plan_files]
+    stats = run_sumo(NET_DIR / DEMAND[day], adds, seed, ["--tripinfo-output", str(trips)])
     t = pd.DataFrame([x.attrib for x in ET.parse(trips).getroot().iter("tripinfo")])
     t = t.astype({"depart": float, "departDelay": float, "duration": float, "timeLoss": float})
     t = t[t["depart"] >= WARMUP_S].copy()
@@ -203,7 +205,7 @@ def run(plan, plan_files, day, seed):
     return {"plan": plan, "day": day, "seed": seed, "vehicles": len(t),
             "mean_delay_s": t["delay"].mean(), "mean_time_loss_s": t["timeLoss"].mean(),
             "mean_depart_delay_s": t["departDelay"].mean(), "p95_delay_s": t["delay"].quantile(0.95),
-            "worst_entry": worst.idxmax(), "worst_entry_wait_s": worst.max(), "teleports": int(teleports)}
+            "worst_entry": worst.idxmax(), "worst_entry_wait_s": worst.max(), **validity(stats)}
 
 
 def ci95(x):
@@ -219,7 +221,8 @@ def summarise(runs):
         mean_time_loss_s=("mean_time_loss_s", "mean"), mean_depart_delay_s=("mean_depart_delay_s", "mean"),
         diff_vs_actuated_s=("diff_vs_actuated_s", "mean"), diff_ci95_s=("diff_vs_actuated_s", ci95),
         p95_delay_s=("p95_delay_s", "mean"), worst_entry_wait_s=("worst_entry_wait_s", "max"),
-        vehicles=("vehicles", "mean"), max_teleports=("teleports", "max")).round(1).reset_index()
+        vehicles=("vehicles", "mean"), max_teleports=("teleports", "max"),
+        valid_runs=("valid", "sum")).round(1).reset_index()
     baseline_mean = summary[summary["plan"] == BASELINE].set_index("day")["mean_delay_s"]
     summary["diff_vs_actuated_pct"] = (100 * summary["diff_vs_actuated_s"]
                                        / summary["day"].map(baseline_mean)).round(0)
@@ -232,13 +235,16 @@ def main():
     params = json.loads((RESULTS_DIR / "calibrated_params.json").read_text())
     (RUN_DIR / "calibrated_vtype.add.xml").write_text(
         f"<additional>\n{vtype_xml(params)}\n</additional>\n", encoding="utf-8")
+    if not (NET_DIR / DEMAND[VALIDATION_DAY]).exists():
+        holdout_routes(VALIDATION_DAY)
     plan_files, design, ped = design_plans()
     print(f"pedestrian crossings held fixed: {ped}")
     print(design.to_string(index=False))
-    jobs = [(p, plan_files[p], d, s) for p in PLANS for d in DAYS for s in SEEDS]
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    jobs = [(p, plan_files[p], d, s) for p in PLANS for d in DEMAND for s in SEEDS]
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         runs = pd.DataFrame(pool.map(lambda j: run(*j), jobs))
     runs.to_csv(RESULTS_DIR / "signal_runs.csv", index=False)
+    db.store("signal_runs", runs)
     summary = summarise(runs)
     summary.to_csv(RESULTS_DIR / "signal_comparison.csv", index=False)
     return summary
