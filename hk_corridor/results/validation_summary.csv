@@ -1,7 +1,7 @@
-day,test,params,seeds,geh_pass_pct,geh_pass_min,geh_pass_max,mean_geh,lane_share_mae_pp,speed_mae_kmh,max_teleports,max_not_inserted,all_valid,geh_pass_30min_pct,geh_pass_60min_pct,interior_geh_pass_pct,interior_mean_geh
-20260922,calibration,calibrated,5.0,94.14,87.5,97.2,1.49,18.72,5.34,23.0,0.0,True,100.0,100.0,92.1,1.9
-20260922,calibration,default,5.0,70.82,66.7,73.6,4.15,18.88,6.08,43.0,58.0,False,82.2,78.9,66.7,4.4
-20260923,holdout,calibrated,5.0,63.9,62.5,66.7,4.04,19.6,5.62,33.0,0.0,True,82.2,94.4,53.3,4.8
-20260923,transfer,calibrated,5.0,82.2,79.2,84.7,3.16,20.08,5.64,79.0,0.0,False,87.2,90.0,80.4,3.2
-20260923,transfer,default,5.0,70.02,66.7,75.0,5.04,20.98,6.04,84.0,239.0,False,70.0,74.4,64.6,5.3
-20260923,holdout,naive forecast,,,,,,,,,,,,,58.3,5.47
+day,test,params,seeds,geh_pass_pct,geh_pass_min,geh_pass_max,mean_geh,lane_share_mae_pp,speed_mae_kmh,max_teleports,max_not_inserted,all_valid,geh_pass_30min_pct,geh_pass_60min_pct,interior_15min_pct,interior_60min_pct,interior_15min_covered_pct,interior_mean_geh
+20260922,calibration,calibrated,5.0,94.14,87.5,97.2,1.49,18.72,5.34,23.0,0.0,True,100.0,100.0,92.1,100.0,93.3,1.9
+20260922,calibration,default,5.0,70.82,66.7,73.6,4.15,18.88,6.08,43.0,58.0,False,82.2,78.9,66.7,83.3,73.9,4.4
+20260923,holdout,calibrated,5.0,63.9,62.5,66.7,4.04,19.6,5.62,33.0,0.0,True,82.2,94.4,53.3,91.7,57.3,4.8
+20260923,transfer,calibrated,5.0,82.2,79.2,84.7,3.16,20.08,5.64,79.0,0.0,False,87.2,90.0,80.4,90.0,79.5,3.2
+20260923,transfer,default,5.0,70.02,66.7,75.0,5.04,20.98,6.04,84.0,239.0,False,70.0,74.4,64.6,70.0,64.4,5.3
+20260923,holdout,naive forecast,,,,,,,,,,,,,58.3,75.0,67.6,5.47
