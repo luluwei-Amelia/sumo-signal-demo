@@ -46,23 +46,27 @@ def run_once(net_file, route_file, tls_file, tls_id, strategy, seed, gui=False):
 
     # Peak number of halting vehicles summed over all approach lanes (not a per-approach queue).
     max_queue = 0
+    teleports = 0
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
+        teleports += traci.simulation.getStartingTeleportNumber()
         if traci.simulation.getTime() >= WARMUP:
             queue = sum(traci.lane.getLastStepHaltingNumber(lane) for lane in incoming_lanes)
             max_queue = max(max_queue, queue)
     traci.close()
 
-    # Only count vehicles that entered after the warm-up period.
+    # Only count vehicles that entered after the warm-up period. Delay includes the time spent
+    # waiting to enter the network, as in the corridor study.
     trips = [
         t for t in ET.parse(tripinfo).getroot().findall("tripinfo")
         if float(t.get("depart")) >= WARMUP
     ]
     return {
         "vehicles": len(trips),
-        "avg_delay_s": sum(float(t.get("timeLoss")) for t in trips) / len(trips),
+        "avg_delay_s": sum(float(t.get("timeLoss")) + float(t.get("departDelay")) for t in trips) / len(trips),
         "avg_travel_time_s": sum(float(t.get("duration")) for t in trips) / len(trips),
         "max_queue_veh": max_queue,
+        "teleports": teleports,
     }
 
 
@@ -73,6 +77,7 @@ def summarise(runs):
     n = len(SEEDS)
     t_crit = stats.t.ppf(0.975, n - 1)
     summary["delay_ci95_s"] = t_crit * grouped["avg_delay_s"].std() / math.sqrt(n)
+    summary["max_teleports"] = grouped["teleports"].max()
     return summary.round(1).reset_index()
 
 
