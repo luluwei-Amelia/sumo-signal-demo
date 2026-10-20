@@ -19,3 +19,7 @@ jobs:
         run: pytest tests/hk_corridor -q
       - name: Single-intersection example
         run: pytest tests/single_intersection -q
+      - name: DQN junction (SUMO tests skip, no sumo binary here)
+        run: |
+          pip install torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+          pytest tests/rl_signal -q

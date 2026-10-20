@@ -1,0 +1,12 @@
+<additional>
+    <tlLogic id="C" type="static" programID="webster" offset="0">
+        <phase duration="19" state="GGGrrrrrGGGrrrrr"/>
+        <phase duration="3" state="yyyrrrrryyyrrrrr"/>
+        <phase duration="10" state="rrrGrrrrrrrGrrrr"/>
+        <phase duration="3" state="rrryrrrrrrryrrrr"/>
+        <phase duration="44" state="rrrrGGGrrrrrGGGr"/>
+        <phase duration="3" state="rrrryyyrrrrryyyr"/>
+        <phase duration="15" state="rrrrrrrGrrrrrrrG"/>
+        <phase duration="3" state="rrrrrrryrrrrrrry"/>
+    </tlLogic>
+</additional>

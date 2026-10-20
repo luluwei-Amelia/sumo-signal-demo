@@ -23,12 +23,29 @@ Results page: https://luluwei-amelia.github.io/sumo-signal-demo/
 
 Details, figures and limitations: [hk_corridor/README.md](hk_corridor/README.md).
 
+## Learned control at one junction
+
+Because the corridor model cannot rank signal plans yet, a DQN controller (plain PyTorch) was
+tested on a single junction with the corridor's demand profile, against Webster fixed-time,
+actuated control, longest-queue and max-pressure, on 10 unseen traffic seeds per scenario:
+
+| Question | Result |
+|---|---|
+| Lower delay on traffic like the training traffic? | Yes: 3.3-4.3 s/veh less than actuated control on two demand profiles, 95% CI excludes zero |
+| At whose expense? | The longest single wait is about 3 times that of actuated control |
+| Does it transfer to swapped directions? | Not when trained on one day's demand: 1 of 5 networks fails. Trained on randomised demand, all 5 serve every vehicle and are level with actuated control on average |
+| Under 20% more demand? | Trained on randomised demand: 21.8 s/veh less than actuated control |
+| Does a reward term for long red times make it fairer? | Not reliably: shorter longest waits on two scenarios, failures again on swapped directions |
+
+Details: [rl_signal/README.md](rl_signal/README.md).
+
 ## Repository
 
 | Folder | Content |
 |---|---|
 | [hk_corridor/](hk_corridor/) | The corridor model: scripts, network, detector data, results |
 | [docs/](docs/) | The static results page (Leaflet map, Plotly charts), built from `hk_corridor/export_dashboard.py` |
+| [rl_signal/](rl_signal/) | DQN signal control at one junction against four baselines, 4 test scenarios |
 | [examples/single_intersection/](examples/single_intersection/) | An earlier single-intersection study: fixed-time, Webster and actuated control over 90 runs |
 | [tests/](tests/) | pytest tests for the scoring, validity rule, signal-plan editing and Webster timing |
 
@@ -51,6 +68,7 @@ Tests run per folder, since both parts have a `saturation` module:
 ```bash
 python -m pytest tests/hk_corridor
 python -m pytest tests/single_intersection
+python -m pytest tests/rl_signal       # needs PyTorch; SUMO tests skip without the sumo binary
 ```
 
 ## Data
