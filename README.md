@@ -1,18 +1,23 @@
-# SUMO model of a Hong Kong corridor, calibrated to detector data
+# Signal control in SUMO: a Hong Kong corridor model and a learned controller
 
 [![tests](https://github.com/luluwei-Amelia/sumo-signal-demo/actions/workflows/tests.yml/badge.svg)](https://github.com/luluwei-Amelia/sumo-signal-demo/actions/workflows/tests.yml)
 
-A SUMO model of Aberdeen Praya Road (1.6 km, 4 signalised junctions, 5 pedestrian crossings,
-left-hand traffic), with demand built from Transport Department detector counts on two weekday
-mornings in September 2026. The work covers network import, detector matching, a SQLite data
-store, demand estimation, multi-seed calibration, a holdout test against a naive benchmark and a
-signal-plan comparison under a validity rule.
+Two parts, the second following from the first:
+
+1. A SUMO model of Aberdeen Praya Road (1.6 km, 4 signalised junctions, 5 pedestrian crossings,
+   left-hand traffic), with demand built from Transport Department detector counts on two weekday
+   mornings in September 2026: network import, detector matching, a SQLite data store, demand
+   estimation, multi-seed calibration, a holdout test against a naive benchmark and a signal-plan
+   comparison under a validity rule. It turned out not to be fit for ranking signal plans.
+2. So learned control was tested at a single junction with the corridor's demand profile: a DQN
+   written in PyTorch against four baselines, on traffic it was trained on and on three kinds it
+   never saw ([below](#learned-control-at-one-junction)).
+
+## Corridor model
 
 Results page: https://luluwei-amelia.github.io/sumo-signal-demo/
 
 ![Holdout test](hk_corridor/results/holdout_20260923.png)
-
-## Main results
 
 | Question | Result |
 |---|---|
@@ -25,7 +30,7 @@ Details, figures and limitations: [hk_corridor/README.md](hk_corridor/README.md)
 
 ## Learned control at one junction
 
-Because the corridor model cannot rank signal plans yet, a DQN controller (plain PyTorch) was
+Because the corridor model cannot rank signal plans yet, a DQN controller written in PyTorch was
 tested on a single junction with the corridor's demand profile, against Webster fixed-time,
 actuated control, longest-queue and max-pressure, on 10 unseen traffic seeds per scenario:
 

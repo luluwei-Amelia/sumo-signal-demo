@@ -4,7 +4,7 @@ The corridor model in `hk_corridor/` cannot yet rank signal plans (see its READM
 control is tested here on a junction whose layout and signal rules are fully specified: one
 4-arm junction in SUMO, left-hand traffic, with the time profile of the Aberdeen Praya Road
 detector counts. A Double DQN
-written in plain PyTorch is compared with Webster fixed-time, SUMO's actuated control,
+written in PyTorch is compared with Webster fixed-time, SUMO's actuated control,
 longest-queue-first and max-pressure, on traffic it was trained on and on three kinds it never saw.
 
 ![Comparison](results/comparison.png)
